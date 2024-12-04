@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loop Calculators</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #2C3E50, #34495E);
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            overflow-x: hidden;
+        }
+        h1 {
+            margin-bottom: 30px;
+            animation: slideIn 1s ease-in-out;
+        }
+        .home-link {
+            display: block;
+            color: #3498DB;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .home-link:hover {
+            color: #27AE60;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .calculator-box {
+            width: 30%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 1s ease-in-out;
+        }
+        .calculator-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+        .calculator-box h3 {
+            margin-bottom: 15px;
+            color: #3498DB;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #3498DB;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input[type="number"]:focus {
+            border-color: #2980B9;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #3498DB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #2980B9;
+            transform: scale(1.05);
+        }
+        .result {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #27AE60;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="sayhello.html" class="home-link">Go to Home Page</a>
+    <h1>Choose a Loop Calculator</h1>
+    <div class="container">
+        <!-- While Loop Calculator -->
+        <div class="calculator-box">
+            <h3>While Loop</h3>
+            <label for="num-while">Enter a Number (N):</label>
+            <input type="number" id="num-while" placeholder="Enter a number">
+            <button onclick="calculateFactorial()">Calculate Factorial</button>
+            <p id="result-while" class="result"></p>
+        </div>
+        
+        <!-- For Loop Calculator -->
+        <div class="calculator-box">
+            <h3>For Loop</h3>
+            <label for="num-for">Enter a Number (N):</label>
+            <input type="number" id="num-for" placeholder="Enter a number">
+            <button onclick="calculateAverage()">Calculate Average</button>
+            <p id="result-for" class="result"></p>
+        </div>
+        
+        <!-- Do-While Loop Calculator -->
+        <div class="calculator-box">
+            <h3>Do-While Loop</h3>
+            <label for="num-do-while">Enter a Number (N):</label>
+            <input type="number" id="num-do-while" placeholder="Enter a number">
+            <button onclick="calculateSum()">Calculate Sum</button>
+            <p id="result-do-while" class="result"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateFactorial() {
+            const num = parseInt(document.getElementById('num-while').value);
+            let factorial = 1;
+
+            if (isNaN(num) || num <= 0) {
+                document.getElementById('result-while').innerHTML = "Please enter a valid positive integer.";
+                return;
+            }
+
+            let i = num;
+            while (i > 0) {
+                factorial *= i;
+                i--;
+            }
+
+            document.getElementById('result-while').innerHTML = `Factorial of ${num}: ${factorial}`;
+        }
+
+        function calculateSum() {
+            const num = parseInt(document.getElementById('num-do-while').value);
+            let sum = 0;
+
+            if (isNaN(num) || num <= 0) {
+                document.getElementById('result-do-while').innerHTML = "Please enter a valid positive integer.";
+                return;
+            }
+
+            let i = 1;
+            do {
+                sum += i;
+                i++;
+            } while (i <= num);
+
+            document.getElementById('result-do-while').innerHTML = `Sum of the first ${num} natural numbers: ${sum}`;
+        }
+
+        function calculateAverage() {
+            const num = parseInt(document.getElementById('num-for').value);
+            let sum = 0;
+
+            if (isNaN(num) || num <= 0) {
+                document.getElementById('result-for').innerHTML = "Please enter a valid positive integer.";
+                return;
+            }
+
+            for (let i = 1; i <= num; i++) {
+                sum += i;
+            }
+
+            const average = sum / num;
+            document.getElementById('result-for').innerHTML = `Average of the first ${num} natural numbers: ${average.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
