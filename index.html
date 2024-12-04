@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversion Tool</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #e0eafc, #cfdef3);
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #007bff;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .converter {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+        .converter:hover {
+            transform: translateY(-5px);
+        }
+        .converter label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .converter input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .converter input:focus {
+            border-color: #007bff;
+        }
+        .converter button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .converter button:hover {
+            background-color: #0056b3;
+        }
+        .converter p {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: bold;
+        }
+        .home-link {
+            display: block;
+            margin-top: 25px;
+            font-size: 1.2rem;
+            color: #007bff;
+            text-decoration: none;
+            border-top: 2px solid #007bff;
+            padding-top: 10px;
+            transition: color 0.3s;
+        }
+        .home-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Temperature and Distance Converter</h1>
+
+        <!-- Temperature Conversion -->
+        <h2>Temperature Converter</h2>
+        <div class="converter">
+            <label for="celsius">Celsius:</label>
+            <input type="number" id="celsius" placeholder="Enter Celsius">
+            <button onclick="convertToFahrenheit()">Convert to Fahrenheit</button>
+            <p id="resultCelsius"></p>
+        </div>
+
+        <div class="converter">
+            <label for="fahrenheit">Fahrenheit:</label>
+            <input type="number" id="fahrenheit" placeholder="Enter Fahrenheit">
+            <button onclick="convertToCelsius()">Convert to Celsius</button>
+            <p id="resultFahrenheit"></p>
+        </div>
+
+        <!-- Distance Conversion -->
+        <h2>Distance Converter</h2>
+        <div class="converter">
+            <label for="meters">Meters:</label>
+            <input type="number" id="meters" placeholder="Enter meters">
+            <button onclick="convertToFeet()">Convert to Feet</button>
+            <p id="resultMeters"></p>
+        </div>
+
+        <div class="converter">
+            <label for="feet">Feet:</label>
+            <input type="number" id="feet" placeholder="Enter feet">
+            <button onclick="convertToMeters()">Convert to Meters</button>
+            <p id="resultFeet"></p>
+        </div>
+
+        <!-- Link to the home page -->
+        <a href="sayhello.html" class="home-link">Go back to Home Page</a>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Conversion functions for temperature
+
+        // Convert Celsius to Fahrenheit
+        function convertToFahrenheit() {
+            const celsius = parseFloat(document.getElementById('celsius').value);
+            if (!isNaN(celsius)) {
+                const fahrenheit = (celsius * 9/5) + 32;
+                document.getElementById('resultCelsius').innerText = `${celsius}°C is equal to ${fahrenheit.toFixed(2)}°F`;
+            } else {
+                document.getElementById('resultCelsius').innerText = 'Please enter a valid number';
+            }
+        }
+
+        // Convert Fahrenheit to Celsius
+        function convertToCelsius() {
+            const fahrenheit = parseFloat(document.getElementById('fahrenheit').value);
+            if (!isNaN(fahrenheit)) {
+                const celsius = (fahrenheit - 32) * 5/9;
+                document.getElementById('resultFahrenheit').innerText = `${fahrenheit}°F is equal to ${celsius.toFixed(2)}°C`;
+            } else {
+                document.getElementById('resultFahrenheit').innerText = 'Please enter a valid number';
+            }
+        }
+
+        // Conversion functions for distance
+
+        // Convert meters to feet
+        function convertToFeet() {
+            const meters = parseFloat(document.getElementById('meters').value);
+            if (!isNaN(meters)) {
+                const feet = meters * 3.28084;
+                document.getElementById('resultMeters').innerText = `${meters} meters is equal to ${feet.toFixed(2)} feet`;
+            } else {
+                document.getElementById('resultMeters').innerText = 'Please enter a valid number';
+            }
+        }
+
+        // Convert feet to meters
+        function convertToMeters() {
+            const feet = parseFloat(document.getElementById('feet').value);
+            if (!isNaN(feet)) {
+                const meters = feet / 3.28084;
+                document.getElementById('resultFeet').innerText = `${feet} feet is equal to ${meters.toFixed(2)} meters`;
+            } else {
+                document.getElementById('resultFeet').innerText = 'Please enter a valid number';
+            }
+        }
+    </script>
+</body>
+</html>
