@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #333;
+            text-align: center;
+            padding: 30px;
+            animation: slideIn 1s ease-in-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .container {
+            margin: 20px auto;
+            width: 90%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+        h1, h2 {
+            color: #2575fc;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .form-group {
+            margin: 15px 0;
+            text-align: left;
+            position: relative;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #6a11cb;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #2575fc;
+            box-shadow: 0 0 5px #2575fc;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #2575fc;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #1a4d96;
+            transform: translateY(-2px);
+        }
+        .payroll-list {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+            animation: bounceIn 1s ease-in-out;
+        }
+        @keyframes bounceIn {
+            from { transform: translateY(-20%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .payroll-list th, .payroll-list td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .payroll-list th {
+            background-color: #2575fc;
+            color: white;
+            text-transform: uppercase;
+        }
+        .payroll-list tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s;
+        }
+        .delete-btn {
+            color: #e74c3c;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .delete-btn:hover {
+            color: #c0392b;
+            transform: scale(1.1);
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #6a11cb;
+        }
+        .home-link {
+            display: block;
+            margin: 20px 0;
+            text-decoration: none;
+            color: #2575fc;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        .home-link:hover {
+            color: #1a4d96;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payroll Management</h1>
+        <h2>Add Employee</h2>
+        <div class="form-group">
+            <label for="employeeName">Employee Name:</label>
+            <input type="text" id="employeeName" placeholder="Enter employee name">
+        </div>
+        <div class="form-group">
+            <label for="daysWorked">Days Worked:</label>
+            <input type="number" id="daysWorked" placeholder="Enter days worked">
+        </div>
+        <div class="form-group">
+            <label for="dailyRate">Daily Rate (PHP):</label>
+            <input type="number" id="dailyRate" placeholder="Enter daily rate">
+        </div>
+        <div class="form-group">
+            <label for="deduction">Deduction (PHP):</label>
+            <input type="number" id="deduction" placeholder="Enter deduction">
+        </div>
+        <button onclick="addEmployee()">Add Employee</button>
+        <button onclick="clearList()">Clear List</button>
+
+        <h2>Payroll List</h2>
+        <table class="payroll-list" id="payrollTable">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Employee Name</th>
+                    <th>Days Worked</th>
+                    <th>Daily Rate</th>
+                    <th>Gross Pay</th>
+                    <th>Deduction</th>
+                    <th>Net Pay</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="8">No data available.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer" id="totalEmployees">Total Employees: 0</div>
+        <a class="home-link" href="sayhello.html">Go to Home Page</a>
+    </div>
+
+    <script>
+        let payroll = [];
+        let employeeCount = 0;
+
+        function addEmployee() {
+            const name = document.getElementById('employeeName').value;
+            const daysWorked = parseFloat(document.getElementById('daysWorked').value);
+            const dailyRate = parseFloat(document.getElementById('dailyRate').value);
+            const deduction = parseFloat(document.getElementById('deduction').value);
+
+            if (name && !isNaN(daysWorked) && !isNaN(dailyRate) && !isNaN(deduction)) {
+                employeeCount++;
+                const grossPay = daysWorked * dailyRate;
+                const netPay = grossPay - deduction;
+
+                payroll.push({ name, daysWorked, dailyRate, grossPay, deduction, netPay });
+                displayPayroll();
+                resetFields();
+            } else {
+                alert('Please fill in all fields with valid data.');
+            }
+        }
+
+        function displayPayroll() {
+            const tableBody = document.getElementById('payrollTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear previous entries
+
+            payroll.forEach((employee, index) => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = index + 1;
+                row.insertCell(1).textContent = employee.name;
+                row.insertCell(2).textContent = employee.daysWorked;
+                row.insertCell(3).textContent = employee.dailyRate.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });
+                row.insertCell(4).textContent = employee.grossPay.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });
+                row.insertCell(5).textContent = employee.deduction.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });
+                row.insertCell(6).textContent = employee.netPay.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => deleteEmployee(index);
+                row.insertCell(7).appendChild(deleteBtn);
+            });
+
+            document.getElementById('totalEmployees').textContent = `Total Employees: ${employeeCount}`;
+        }
+
+        function deleteEmployee(index) {
+            payroll.splice(index, 1);
+            employeeCount--;
+            displayPayroll();
+        }
+
+        function clearList() {
+            payroll = [];
+            employeeCount = 0;
+            displayPayroll();
+        }
+
+        function resetFields() {
+            document.getElementById('employeeName').value = '';
+            document.getElementById('daysWorked').value = '';
+            document.getElementById('dailyRate').value = '';
+            document.getElementById('deduction').value = '';
+        }
+    </script>
+</body>
+</html>
