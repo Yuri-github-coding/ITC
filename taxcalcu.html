@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #2C3E50;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            animation: fadeIn 2s;
+        }
+        .calculator {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease-in-out;
+        }
+        .calculator:hover {
+            transform: scale(1.05);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #3498DB;
+            border-radius: 10px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        input[type="number"]:focus {
+            border-color: #2980B9;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #3498DB;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #2980B9;
+            transform: translateY(-3px);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #27AE60;
+        }
+        .home-link {
+            display: block;
+            margin-top: 30px;
+            font-size: 1rem;
+            color: #3498DB;
+            text-decoration: none;
+            border: 1px solid #3498DB;
+            border-radius: 5px;
+            padding: 10px 15px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .home-link:hover {
+            background-color: #3498DB;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Income Tax Calculator</h1>
+        <label for="income">Enter Your Annual Income :</label>
+        <input type="number" id="income" placeholder="Enter a number">
+        <button onclick="calculateTax()">Calculate Tax</button>
+        <p id="result" class="result"></p>
+        <a href="sayhello.html" class="home-link">Go to Home Page</a>
+    </div>
+
+    <script>
+        function calculateTax() {
+            const income = parseFloat(document.getElementById('income').value);
+            let taxAmount = 0;
+
+            if (isNaN(income) || income < 0) {
+                document.getElementById('result').innerHTML = "Please enter a valid income.";
+                return;
+            }
+
+            // Example progressive tax brackets (adjust as needed)
+            if (income <= 250000) {
+                taxAmount = income * 0.10; // 10% tax for income up to 250,000
+            } else if (income <= 500000) {
+                taxAmount = 250000 * 0.10 + (income - 250000) * 0.15; // 15% for income above 250,000 up to 500,000
+            } else if (income <= 1000000) {
+                taxAmount = 250000 * 0.10 + 250000 * 0.15 + (income - 500000) * 0.20; // 20% for income above 500,000 up to 1,000,000
+            } else {
+                taxAmount = 250000 * 0.10 + 250000 * 0.15 + 500000 * 0.20 + (income - 1000000) * 0.25; // 25% for income above 1,000,000
+            }
+
+            // Display the result with peso formatting
+            document.getElementById('result').innerHTML = `Your estimated tax is: ${taxAmount.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}`;
+        }
+    </script>
+</body>
+</html>
